@@ -16,6 +16,7 @@
             <th scope="col" style="width: 110px">Surname</th>
             <th scope="col" style="width: 110px">patronymic</th>
             <th scope="col" style="width: 110px">books</th>
+            <th scope="col" style="width: 50px">Delete</th>
 
         </tr>
         </thead>
@@ -26,14 +27,11 @@
             <td>{{a.surname}}</td>
             <td>{{a.patronymic}}</td>
             <td>{{a.books}}</td>
+            <td><a href="{% url 'author_delete_url' a.pk %}" class="btn btn-danger">
+                delete</a></td>
         </tr>
         {% endfor %}
     </table>
-    {% if us_active.is_active %}
-        <p>hello active</p>
-    {% else %}
-        <p> not active</p>
-    {% endif %}
     <a href="{% url 'add_author' %} ">
         <button type='submit' class="btn btn-outline-success"> Create new Author</button>
     </a>
