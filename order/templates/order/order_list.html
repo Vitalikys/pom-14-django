@@ -1,10 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Order Page</title>
-</head>
-<body>
-<h1>This is order app page! Congratulations!</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block sidebar  %}
+<p> sidebar expected here</p>
+{% endblock %}
+
+
+{% block content %}
+<h4>all Orders table:</h4>
+<div class="col-md-10">
+    <table class="table table-warning table-striped">
+        <thead class="border-bottom font-weight-bold">
+        <tr>
+            <th scope="col" style="width: 20px">id</th>
+            <th scope="col" style="width: 110px">Name of book</th>
+            <th scope="col" style="width: 110px">Name of user</th>
+            <th scope="col" style="width: 110px">Create date</th>
+            <th scope="col" style="width: 110px">End date</th>
+            <th scope="col" style="width: 110px">plated_end_at</th>
+            <th scope="col" style="width: 50px">Close</th>
+        </tr>
+        </thead>
+        {% for order in orders %}
+        <tr>
+            <td>{{order.id}}</td>
+            <td><a href="#"> {{order.book.name}} </a></td>
+            <td>{{order.user.last_name}}</td>
+            <td>{{order.created_at}}</td>
+            <td>{{order.end_at}}</td>
+            <td>{{order.plated_end_at}}</td>
+            <td><a href="{% url 'order_delete_url' order.pk %}" class="btn btn-danger">
+                close order</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}
+
