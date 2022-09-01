@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Login : {{ block.super }}{% endblock %}
+
+
+{% block sidebar %}
+
+{% endblock %}
+
+
+{% block content %}
+    <h4> login </h4>
+    <form method = "post">
+        {% csrf_token %}
+<!--        <input type="text" name="email" , placeholder="email">-->
+        <input type="text" name="username" , placeholder="user_name">
+        <input type="text" name="password" , placeholder="password">
+
+        <button type = 'submit' class="btn btn-outline-primary"> login</button>
+    </form>
+{% endblock %}

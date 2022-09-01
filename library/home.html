@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block sidebar  %}
+    <p>DFS</p>
+{% endblock %}
+
+{% block content  %}
+    <h6>POM-Django Sprint 14</h6>
+    <h6>View/Template om-36-team-28</h6>
+    <H6>Vitalii Kostyreva </H6>
+    <p>логін, вхід вихід  для користувача CustomUser працює тільки на цій сторінці.
+        переходячи на інші, не звязано. поле CustomUser.is_active змінюємо на True or False, от так і це відбувається</p>
+    <p>для авторизації нормального юзера, створеного (з django manage.py createsuperuser),
+        потрібно зайти з форми нижче:
+    така авторизація діє на всьому сайті</p>
+
+    <h3> <a href="{%url 'login_django' %}">-login- </a> </h3>
+
+
+
+{% endblock %}

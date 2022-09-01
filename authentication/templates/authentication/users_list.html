@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h4>all CustomUsers table:</h4>
+<div class="col-md-10">
+<table class="table table-success table-striped">
+    <thead class="border-bottom font-weight-bold">
+    <tr>
+        <th scope="col" style="width: 20px">id</th>
+        <th scope="col" style="width: 110px">FirstName</th>
+        <th scope="col" style="width: 110px">LastName</th>
+        <th scope="col" style="width: 110px">MiddleName</th>
+        <th scope="col" style="width: 120px">Email</th>
+        <th scope="col" style="width: 140px">create date</th>
+        <th scope="col" style="width: 140px">password</th>
+<!--        <th scope="col" style="width: 140px">update date</th>-->
+        <th>Role</th>
+        <th>is_active</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    {% for user in users %}
+    <tr>
+        <td>{{user.id}}</td>
+        <td><a href="{% url 'user_detail_url' user.id %}" target="_blank"> {{user.first_name}} </a></td>
+        <td>{{user.last_name}}</td>
+        <td>{{user.middle_name}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.created_at}}</td>
+<!--        <td>{{user.updated_at}}</td>-->
+        {% if request.user.is_superuser %}
+            <td>{{user.password}}</td>
+            <td>{{user.get_role_name}}</td>
+            <td>{{user.is_active}}</td>
+            <td><a href="{% url 'user_delete_url' user.pk %}" class="btn btn-danger">
+                <i class = "fa fa-trash-o">delete</i></a></td>
+        {% else %}
+            <td> Ці дані доступні у випадку .user.is_superuser </td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+</div>
+
+{% endblock %}
+

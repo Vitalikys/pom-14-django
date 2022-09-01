@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content  %}
+<h4> Provide an opportunity to view a specific user (admin/user). method .to_dict(self):</h4>
+    {{ user }}
+
+    {% for k,v in user.items %}
+        <h3> {{k}}  :   {{v}}  </h3>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block sidebar  %}
+    <p>sidebar expected here</p>
+{% endblock %}
+
+
+
+{% block content  %}
+    <h4> result from book.to_dict {{ book.dict_b }}</h4>
+    {% for k,v in book.dict_b.items %}
+        <h3> {{k}} : {{v}} </h3>
+    {% endfor %}
+
+
+<h2>Назва книги: {{book.book_obj.name}} </h2>
+<img src="https://picsum.photos/200/320?random=1" style="float: left" title="default_rand_photo" alt="фото заглушка"
+         width="50" class="col-md-2 mr-1">
+<h4>кількість книг:{{ book.book_obj.count }}шт.</h4>
+<p> опис книги: {{ book.book_obj.description }}</p>
+
+
+{% endblock %}

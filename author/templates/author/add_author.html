@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Add one new author{% endblock %}
+
+
+
+    {% block sidebar %}
+
+    {% endblock %}
+
+
+
+{% block content %}
+
+    <div class="list-group col-md-9">
+        <form method="post" enctype="multipart/form-data">
+
+            <H2>Додати нового автора:</H2>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br/>
+            <button type="submit" class="btn btn-success">Створити</button>
+
+        </form>
+    </div>
+{% endblock %}

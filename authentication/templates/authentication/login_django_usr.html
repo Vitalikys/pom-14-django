@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+
+{% endblock %}
+
+
+{% block content %}
+<div class="list-group col-md-4">
+    <h4> login: admin,  passw: admin</h4>
+    <form method = "post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type = 'submit' class="btn btn-outline-primary"> login</button>
+    </form>
+
+</div>
+
+{% endblock %}

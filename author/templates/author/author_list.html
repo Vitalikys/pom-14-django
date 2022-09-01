@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block sidebar  %}
+<p>DFS</p>
+{% endblock %}
+
+
+{% block content %}
+<h4>all Authors table:</h4>
+<div class="col-md-10">
+    <table class="table table-secondary table-striped">
+        <thead class="border-bottom font-weight-bold">
+        <tr>
+            <th scope="col" style="width: 20px">id</th>
+            <th scope="col" style="width: 110px">Name</th>
+            <th scope="col" style="width: 110px">Surname</th>
+            <th scope="col" style="width: 110px">patronymic</th>
+            <th scope="col" style="width: 110px">books</th>
+
+        </tr>
+        </thead>
+        {% for a in author %}
+        <tr>
+            <td>{{a.id}}</td>
+            <td>{{a.name}}</td>
+            <td>{{a.surname}}</td>
+            <td>{{a.patronymic}}</td>
+            <td>{{a.books}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% if us_active.is_active %}
+        <p>hello active</p>
+    {% else %}
+        <p> not active</p>
+    {% endif %}
+    <a href="{% url 'add_author' %} ">
+        <button type='submit' class="btn btn-outline-success"> Create new Author</button>
+    </a>
+
+</div>
+
+{% endblock %}
+
