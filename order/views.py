@@ -9,6 +9,12 @@ def list_orders(request):
     data = Order.get_all()
     return render(request, 'order/order_list.html', {'orders':data})
 
+def my_orders(request):
+    current_user  = request.user
+    messages.info(request, f"Info about all orders for user: '{current_user}' ")
+    data = Order.objects.filter(user_id= current_user.id).values()
+    return render(request, 'order/all_my_orders.html', {'orders':data})
+
 @login_required(login_url='login_url')
 def delete_order(request, order_id):
     Order.delete_by_id(order_id)
