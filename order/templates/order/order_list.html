@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% block title %} All Orders {% endblock %}
 {% block sidebar  %}
 <p> sidebar expected here</p>
 {% endblock %}
@@ -18,6 +18,7 @@
             <th scope="col" style="width: 110px">End date</th>
             <th scope="col" style="width: 110px">plated_end_at</th>
             <th scope="col" style="width: 50px">Close</th>
+            <th scope="col" style="width: 50px">Edit</th>
         </tr>
         </thead>
         {% for order in orders %}
@@ -30,9 +31,15 @@
             <td>{{order.plated_end_at}}</td>
             <td><a href="{% url 'order_delete_url' order.pk %}" class="btn btn-danger">
                 close order</a></td>
+            <td><a href="{% url 'order_edit_url' order.pk %}" class="btn btn-info">
+                edit</a></td>
         </tr>
         {% endfor %}
     </table>
+
+    <a href="{% url 'add_order' %}">
+        <button type='submit' class="btn btn-warning"> Create new Order</button>
+    </a>
 </div>
 
 {% endblock %}

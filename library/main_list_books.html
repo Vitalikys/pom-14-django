@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %} Library {% endblock %}
+
+{% block sidebar %}  {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for book in object_list %}
+                <div class="col" style="margin-bottom: 10px">
+                    <div class="card shadow-sm">
+
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="fill">
+                                     <img src="https://picsum.photos/200/320?random=1"
+                                             title="default_photo"
+                                             alt="фото заглушка"
+                                             width="290" class="float-left mr-3">
+                                </div>
+
+                            </div>
+                            <h4 class="card-text">{{ book.name }}</h4>
+                            <h5>К-ть:{{ book.count }}шт.</h5>
+                            <p class="card-text">{{ book.description |safe|truncatewords:20 }}</p>
+                            <form method="post" action="#">
+                                {% csrf_token %}
+
+                                <label class="form-label" for="id_quantity">кількість:</label>
+                                <input style="width: 55px" type="number" name="quantity" value="1" min="1" required
+                                       id="id_quantity">
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="{% url 'book_detail_url' book.pk %}">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                        </a>
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary">Add to order
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        {#    paginator#}
+        <nav aria-label="..." class="pagin_list">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class=" page-item">
+                        <a class="page-link" href="?page={{ p }}" tabindex="-1"><<</a>
+                    </li>
+                {% endif %}
+                {% for p in page_obj.paginator.page_range %}
+                    {#                       current page#}
+                    {% if page_obj.number == p %}
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="?page={{ p }}">
+                                <span class="sr-only">{{ p }}</span> </a>
+                        </li>
+                        {#                         створюємо умову elif щоб не показували всі сторінки для навігації#}
+                    {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                        <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                    {% endif %}
+
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class=" page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}"> >> </a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </nav>
+
+    </div>
+
+{% endblock %}

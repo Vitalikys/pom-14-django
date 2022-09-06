@@ -16,16 +16,18 @@ class Author(models.Model):
         param patronymic: Describes middle name of the author
         type patronymic: str max_length=20
     """
-    name = models.CharField(blank = True, max_length=20)
-    surname = models.CharField(blank = True, max_length=20)
-    patronymic = models.CharField(blank = True, max_length=20)
+    name = models.CharField(blank = True, max_length=20, verbose_name="Ім'я")
+    surname = models.CharField(blank = True, max_length=20, verbose_name='прізвище')
+    patronymic = models.CharField(blank = True, max_length=20, verbose_name='по-батькові')
     # НОВЕ ПОЛЕ
     # books = models.ManyToManyField(book.models.Book, related_name='authors')
     id = models.AutoField(primary_key=True)
+    class Meta:         # for admin.menu
+        verbose_name= 'Автор'
+        verbose_name_plural = 'Автори'
 
     def get_absolute_url(self):
-        pass
-        # return reverse('detail_author', kwargs={'pk':self.pk})
+        return reverse('detail_author', kwargs={'pk':self.pk})
 
     def __str__(self):
         """

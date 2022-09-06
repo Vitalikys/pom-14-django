@@ -30,6 +30,9 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     end_at = models.DateTimeField(default=None, null=True, blank=True)
     plated_end_at = models.DateTimeField(default=None)
+    class Meta:         # for admin.menu
+        verbose_name= 'Замовлення'
+        verbose_name_plural = 'Замовлення'
 
 
 

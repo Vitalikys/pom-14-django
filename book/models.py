@@ -1,4 +1,5 @@
 from django.db import models, IntegrityError, DataError
+from django.urls import reverse
 
 from author.models import Author
 # import author.models
@@ -17,20 +18,25 @@ class Book(models.Model):
         param authors: list of Authors
         type authors: list->Author
     """
-    name = models.CharField(blank=True, max_length=128)
-    description = models.CharField(blank=True, max_length=256)
-    count = models.IntegerField(default=10)
+    name = models.CharField(blank=True, max_length=128, verbose_name='Книги')
+    description = models.CharField(blank=True, max_length=256 , verbose_name='Опис')
+    count = models.IntegerField(default=10, verbose_name='Кількість')
     id = models.AutoField(primary_key=True)
     # authors = models.ManyToManyField(author.models.Author, blank=True)
-    authors = models.ManyToManyField(Author, blank=True)
+    authors = models.ManyToManyField(Author, blank=True, verbose_name='Автор')
+    class Meta:         # for admin.menu
+        verbose_name= 'Книга'
+        verbose_name_plural = 'Книги'
+    def get_absolute_url(self):
+        return reverse('book_detail_url', kwargs={'id':self.id})
 
     def __str__(self):
         """
         Magic method is redefined to show all information about Book.
         :return: book id, book name, book description, book count, book authors
         """
-        return f"'id': {self.id}, 'name': '{self.name}', 'description': '{self.description}', 'count': {self.count}, 'authors': {[author.id for author in self.authors.all()]}"
-
+        # return f"'id': {self.id}, 'name': '{self.name}', 'description': '{self.description}', 'count': {self.count}, 'authors': {[author.id for author in self.authors.all()]}"
+        return self.name
     def __repr__(self):
         """
         This magic method is redefined to show class and id of Book object.

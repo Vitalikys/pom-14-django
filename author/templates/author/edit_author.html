@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit author{% endblock %}
+
+
+{% block sidebar %}
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="list-group col-md-9">
+    <form method="post" enctype="multipart/form-data">
+
+        <H2>Редагувати автора:</H2>
+        {% csrf_token %}
+        <div class="form-outline mb-4">
+            <input type="text" id="123" class="form-control form-control-lg" name="name" value={{ author.name}}>
+            <label class="form-label" for="123">Name</label>
+        </div>
+
+        <div class="form-outline mb-4">
+            <input type="text" id="12" class="form-control form-control-lg" name="surname" value={{ author.surname}}>
+            <label class="form-label" for="12">Surname</label>
+        </div>
+        <div class="form-outline mb-4">
+            <input type="text" id="1234" class="form-control form-control-lg" name="patronymic" value={{ author.patronymic}}>
+            <label class="form-label" for="1234">Patronymic</label>
+        </div>
+
+        <br/>
+        <button type="submit" class="btn btn-success">Змінити</button>
+
+    </form>
+</div>
+{% endblock %}

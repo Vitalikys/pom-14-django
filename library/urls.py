@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import base_page
+from .views import base_page, HomeLists
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +24,5 @@ urlpatterns = [
     path('book/', include('book.urls')),
     path('order/', include('order.urls')),
     path('user/', include('authentication.urls')),
+    path('library_main/', HomeLists.as_view(), name='list_books_main'),
 ]

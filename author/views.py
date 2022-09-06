@@ -1,10 +1,15 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 
 from .models import Author
 from .forms import AddAuthorForm
+
+class UpdateAuthorView(UpdateView):
+    model = Author #.get_form_kwargs()
+    template_name = 'author/edit_author.html'
+    fields = ('name', 'surname', 'patronymic' )
 
 @login_required(login_url='login_url')
 def list_author(request):
@@ -27,6 +32,47 @@ def add_author(request):
         form = AddAuthorForm() #створ екземпл пустої форми
     return render(request, 'author/add_author.html', {'form':form} )
 
+# def change_author(request, id=0):
+#     try:
+#         if request.method == 'GET':
+#             if id ==0:
+#                 form = AddAuthorForm()
+#             else:
+#                 author = Author.get_by_id(id)
+#                 form = AddAuthorForm(request.POST or None, instance=author)
+#                 # form = AddAuthorForm(initial=dict(field_name=get_form_kwargs)
+#                 context = {'form': form, 'author':author}
+#             return render(request, 'author/edit_author.html', context=context)
+#         else:
+#         # elif request.method == 'POST':
+#             if id==0:
+#                 form = AddAuthorForm(request.POST)
+#             else:
+#                 author = Author.get_by_id(id)
+#                 form = AddAuthorForm(request.POST, instance=author)
+#             if form.is_valid():
+#                 form.save()
+#                 messages.success(request, f'Changed new author: {author.surname} success !')
+#             else:
+#                 return render(request, 'author/edit_author.html', {'form': form})
+#             return redirect('list_author')
+#     except Exception:
+#         messages.error(request, f'You catch error!')
+
+@login_required
+def edit(request, id=None, template_name='author/edit_author.html'):
+    if id:
+        author = Author.get_by_id(id)
+        # author = get_object_or_404(Author, pk=id)
+    form = AddAuthorForm(request.POST or None, instance=author)
+    if request.POST and form.is_valid():
+        form.save()
+
+        # Save was successful, so redirect to another page
+        messages.success(request, f'Changes to author: {author.name} success !')
+        return redirect('list_author')
+    context = {'form': form, 'author': author}
+    return render(request, template_name, context=context)
 
 
 '''

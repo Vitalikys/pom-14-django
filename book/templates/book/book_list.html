@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %} Books {% endblock %}
+
 {% block sidebar  %}
    <p>  sidebar expected here</p>
 {% endblock %}
@@ -16,6 +18,7 @@
         <th scope="col" style="width: 110px">description</th>
         <th scope="col" style="width: 110px">count</th>
         <th scope="col" style="width: 110px">authors</th>
+        <th scope="col" style="width: 70px">action</th>
     </tr>
     </thead>
     {% for book in books %}
@@ -28,10 +31,16 @@
             {% for item in book.authors.all %}
                 {{ item.surname }}
             {% endfor %}  </td>
+        <td><a href="{% url 'edit_book' book.id %}">edit</a>
+            <a style="color:red" href="{% url 'delete_book' book.id %}">delete</a></td>
 
     </tr>
     {% endfor %}
 </table>
+
+    <a href="{% url 'add_book' %} ">
+        <button type='submit' class="btn btn-outline-info"> Add new Book</button>
+    </a>
 </div>
 
 {% endblock %}

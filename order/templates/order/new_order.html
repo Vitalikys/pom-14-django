@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}New order{% endblock %}
+
+
+{% block sidebar %}
+    sidebar
+{% endblock %}
+
+
+{% block content %}
+
+<div class="list-group col-md-9">
+    <form method="post" enctype="multipart/form-data" class="my-class">
+        <H2>Створити замовлення:</H2>
+        {% csrf_token %}
+        {% crispy form %}
+        <br/>
+        <button type="submit" class="btn btn-success">Create</button>
+
+    </form>
+</div>
+{% endblock %}

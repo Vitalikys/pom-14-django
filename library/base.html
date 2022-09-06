@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>main page</title>
+    <title>{% block title %}  {% endblock %}</title>
+
     <style>
         span{text-align: right;}
 
@@ -21,6 +22,7 @@
     <div class="container-fluid">
 
         <a class="navbar-brand" href="{% url 'home' %}">&#160;&nbsp;&nbsp; &#160; Home</a>
+        <a class="navbar-brand" href="{% url 'list_books_main' %}">&#160;&nbsp;&nbsp; &#160; LIBRARY</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

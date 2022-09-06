@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
+from .forms import OrderForm
 from .models import Order
 
 
@@ -21,3 +22,27 @@ def delete_order(request, order_id):
     messages.success(request, 'You have delete order. Success !')
     return redirect('list_orders')
 
+@login_required(login_url='login_url')
+def edit_order(request, order_id=None):
+    if order_id:
+        order = Order.get_by_id(order_id)
+    form = OrderForm(request.POST or None, instance=order)
+    if request.POST and form.is_valid():
+        form.save()
+        # Save was successful, so redirect to another page
+        messages.success(request, f'Changes order: {order.id} success !')
+        return redirect('list_orders')
+    context = {'form': form, 'order': order}
+    return render(request, 'order/edit_order.html', context=context)
+
+@login_required(login_url='login_url')
+def add_order(request):
+    if request.method =='POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'book: new order:  ok')
+            return redirect('list_orders')
+    else:
+        form = OrderForm()
+    return render(request, 'order/new_order.html', {'form': form})

@@ -11,7 +11,6 @@ from django.urls import reverse
 ROLE_CHOICES = (
     (0, 'visitor'),
     (1, 'admin'),
-    (2, 'is_staff'),
 )
 
 
@@ -53,6 +52,9 @@ class CustomUser(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
     # REQUIRED_FIELDS = []
+    class Meta:         # for admin.menu
+        verbose_name= 'Користувач'
+        verbose_name_plural = 'Користувачі'
     def get_absolute_url(self):
         return reverse('user_detail_url', kwargs={'id':self.id})
 
@@ -63,8 +65,8 @@ class CustomUser(AbstractBaseUser):
                  user email, user password, user updated_at, user created_at,
                  user role, user is_active
         """
-        return f"'id': {self.id}, 'first_name': '{self.first_name}', 'middle_name': '{self.middle_name}', 'last_name': '{self.last_name}', 'email': '{self.email}', 'created_at': {int(self.created_at.timestamp())}, 'updated_at': {int(self.updated_at.timestamp())}, 'role': {self.role}, 'is_active': {self.is_active}"           #'password': '{self.password}', \
-
+        # return f"'id': {self.id}, 'first_name': '{self.first_name}', 'middle_name': '{self.middle_name}', 'last_name': '{self.last_name}', 'email': '{self.email}', 'created_at': {int(self.created_at.timestamp())}, 'updated_at': {int(self.updated_at.timestamp())}, 'role': {self.role}, 'is_active': {self.is_active}"           #'password': '{self.password}', \
+        return f' {self.first_name} {self.last_name}'
     def __repr__(self):
         """
         This magic method is redefined to show class and id of CustomUser object.
