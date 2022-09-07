@@ -14,10 +14,26 @@ def list_users(request):
     return render(request, 'authentication/users_list.html', {'users': CustomUser.get_all()})
 
 
+@login_required(login_url='login_url')
 def delete_user(request, id):
     CustomUser.delete_by_id(id)
     messages.success(request, 'You have delete user. Success !')
     return redirect('list_users')
+
+@login_required(login_url='login_url')
+def edit_user(request, user_id):
+    if user_id:
+        user_to_edit = CustomUser.get_by_id(user_id)
+    form = AuthenticateUserForm(request.POST or None, instance=user_to_edit)
+    if request.POST and form.is_valid():
+        print('valid')
+        form.save()
+        messages.success(request, f'Changes to user: {user_to_edit.last_name} success !')
+        return redirect('list_users')
+    context = { 'form':form, 'user':user_to_edit}
+    return render(request, 'authentication/edit_user.html', context=context)
+
+
 
 @login_required(login_url='login_url')
 def detail_user(request,id):

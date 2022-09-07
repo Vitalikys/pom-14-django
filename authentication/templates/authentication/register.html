@@ -11,24 +11,48 @@
         {{ form.title.errors }}
         {{ form.title }}
         {% csrf_token %}
-        <input type="text" name="username" , placeholder="Name">
-        <input type="text" name="last_name" , placeholder="lastname">
-        <input type="text" name="midle_name" , placeholder="Midlename">
-        <input type="text" name="email" , placeholder="email">
-        <input type="text" name="password1" , placeholder="Password1">
-        <input type="text" name="password2" , placeholder="Password2">
+
+        <div class="form-group">
+            <!--            <input class="form-control" type="text" name="username" , placeholder="Name">-->
+            <label for="form.username.id_for_label">User Name:</label>
+            {{form.username}}
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="form.last_name.id_for_label">Last Name:</label>
+            {{form.last_name}}
+        </div>
+        <br>
+
+        <div class="form-group ">
+            <label for="MidlenameID" class="col-sm-2 col-form-label">Middlename:</label>
+            <input class="form-control" type="text" name="midle_name" id='MidlenameID' placeholder="Midlename">
+        </div>
+        <br>
+
+        <input class="form-control" type="text" name="email" placeholder="email">
+        <input class="form-control" type="password" name="password1" placeholder="Password1">
+        <input class="form-control" type="password" name="password2" placeholder="Password2">
 
         <fieldset>
             <legend>{{ form.role.label }}</legend>
             {% for radio in form.role %}
-                <div class="myradio">
-                    {{ radio }}
-                </div>
+            <div class="myradio">
+                {{ radio }}
+            </div>
             {% endfor %}
         </fieldset>
 
-        <!---->
-        <!--        {{ form.as_p }}-->
+        <!--        {% for radio in form.role %}-->
+        <!--        <div class="form-check">-->
+        <!--            <input class="form-check-input" type="radio" name="role" id="exampleRadios2">-->
+        <!--            <label class="form-check-label" for="exampleRadios2">-->
+        <!--                {{ radio }}-->
+        <!--            </label>-->
+        <!--        </div>-->
+        <!--        {% endfor %}-->
+
         <button type='submit' class="btn btn-outline-primary"> Registrate</button>
     </form>
 

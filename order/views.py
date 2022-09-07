@@ -13,7 +13,8 @@ def list_orders(request):
 def my_orders(request):
     current_user  = request.user
     messages.info(request, f"Info about all orders for user: '{current_user}' ")
-    data = Order.objects.filter(user_id= current_user.id).values()
+    data = Order.objects.filter(user = 13).values()
+    print(data)
     return render(request, 'order/all_my_orders.html', {'orders':data})
 
 @login_required(login_url='login_url')
@@ -40,6 +41,8 @@ def add_order(request):
     if request.method =='POST':
         form = OrderForm(request.POST)
         if form.is_valid():
+            # print(form.cleaned_data)
+            # Order.create(**form.cleaned_data)
             form.save()
             messages.success(request, f'book: new order:  ok')
             return redirect('list_orders')

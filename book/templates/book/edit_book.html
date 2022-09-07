@@ -15,9 +15,33 @@
 
         <H2>Редагувати книгу:</H2>
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.non_field.errors }}
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label}}">назва книги</label>
+            {{ form.name }}
+            <div class="invalid-feedback">{{ form.name.errors}}</div>
+        </div>         <br>
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label}}">опис книги</label>
+            {{ form.description }}
+        </div>        <br>
+        <div class="form-group">
+            <label for="{{ form.count.id_for_label}}">кількість книг</label>
+            {{ form.count }}
+        </div>        <br>
+        <div class="form-group">
+            <label for="{{ form.authors.id_for_label}}">автор:</label>
+            {{ form.authors }}
+        </div>
 
-        <br/>
+<!--VERSION 2- ANOTHER SOLUTION -->
+<!--        {% for item in form %}-->
+<!--        <div class="form-group">-->
+<!--            {{ item.label_tag }}-->
+<!--            {{ item }}-->
+<!--        </div>-->
+<!--        {% endfor %}-->
+<!--        <br/>-->
         <button type="submit" class="btn btn-danger">Ok</button>
 
     </form>

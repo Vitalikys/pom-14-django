@@ -11,10 +11,12 @@
 {% block content %}
 
 <div class="list-group col-md-9">
-    <form method="post" enctype="multipart/form-data" class="my-class">
+    <form method="post" class="my-class">
         <H2>Створити замовлення:</H2>
         {% csrf_token %}
+<!--        {% crispy form %}-->
         {{ form.as_p}}
+
         <br/>
         <button type="submit" class="btn btn-success">Create</button>
 

@@ -9,13 +9,17 @@
 
 
 {% block content %}
-    <h4> login </h4>
-    <form method = "post">
-        {% csrf_token %}
-<!--        <input type="text" name="email" , placeholder="email">-->
-        <input type="text" name="username" , placeholder="user_name">
-        <input type="text" name="password" , placeholder="password">
+<div class="list-group col-md-4">
 
-        <button type = 'submit' class="btn btn-outline-primary"> login</button>
+    <h4> login page </h4>
+    <form method="post">
+        {% csrf_token %}
+        <!--        <input type="text" name="email" , placeholder="email">-->
+        <input class="form-control" type="text" name="username" placeholder="user_name">
+        <br>
+        <input class="form-control" type="password" name="password" placeholder="password">
+
+        <button type='submit' class="btn btn-outline-primary"> login</button>
     </form>
+</div>
 {% endblock %}

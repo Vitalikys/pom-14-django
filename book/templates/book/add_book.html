@@ -15,9 +15,14 @@
 
         <H2>Додати книгу:</H2>
         {% csrf_token %}
-        {{ form.as_p }}
-
+        {% for item in form %}
+        <div class="form-group">
+            {{ item.label_tag }}
+            {{ item }}
+        </div>
+        {% endfor %}
         <br/>
+
         <button type="submit" class="btn btn-danger">Ok</button>
 
     </form>
