@@ -1,12 +1,21 @@
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, get_user_model, authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 # from .forms import  AuthenticateUserForm
 from django.urls import reverse_lazy
+from rest_framework import generics
 
 from .models import CustomUser
 from .forms import UserLoginForm, UserLoginFormEmail, AuthenticateUserForm
+from .serializers import UserSerializer
+
+USER = get_user_model()
+class CustomUserView(generics.CreateAPIView):
+    model = USER
+    queryset = CustomUser.get_all()
+    serializer_class = UserSerializer
+
 
 def list_users(request):
     active_user = CustomUser.objects.filter(is_active=True).first()
@@ -20,6 +29,7 @@ def delete_user(request, id):
     messages.success(request, 'You have delete user. Success !')
     return redirect('list_users')
 
+
 @login_required(login_url='login_url')
 def edit_user(request, user_id):
     if user_id:
@@ -30,15 +40,15 @@ def edit_user(request, user_id):
         form.save()
         messages.success(request, f'Changes to user: {user_to_edit.last_name} success !')
         return redirect('list_users')
-    context = { 'form':form, 'user':user_to_edit}
+    context = {'form': form, 'user': user_to_edit}
     return render(request, 'authentication/edit_user.html', context=context)
 
 
-
 @login_required(login_url='login_url')
-def detail_user(request,id):
+def detail_user(request, id):
     user_data = CustomUser.get_by_id(id).to_dict()
-    return render(request, 'authentication/single_user_detail.html', {'user': user_data })
+    return render(request, 'authentication/single_user_detail.html', {'user': user_data})
+
 
 def register(request):
     if request.method == 'POST':  # приймаємо дані з форми
@@ -47,7 +57,7 @@ def register(request):
         form = AuthenticateUserForm(request.POST)
         if form.is_valid():
             user = form.save()
-            from django.contrib.auth import login
+            # user = authenticate(request, username=form.cleaned_data['email'], password=form.cleaned_data['password1'])
             login(request, user)  # щоб зразу зайти після реєстрацї
             messages.success(request, 'Reg success *!')
             first_name = request.POST.get('username')
@@ -58,10 +68,10 @@ def register(request):
             role = request.POST.get('role')
             try:
                 new_usr = CustomUser.create(email=email,
-                                  password=password,
-                                  first_name=first_name,
-                                  middle_name=midle_name,
-                                  last_name=last_name, role=role)
+                                            password=password,
+                                            first_name=first_name,
+                                            middle_name=midle_name,
+                                            last_name=last_name, role=role)
                 new_usr.is_active = True
                 new_usr.save()
                 messages.success(request, 'Registation success !')
@@ -74,6 +84,7 @@ def register(request):
     else:
         form = AuthenticateUserForm()
     return render(request, 'authentication/register.html', {'form': form})
+
 
 def user_login(request):
     ''' login CustomUser  from HTML FORMs '''
@@ -91,8 +102,8 @@ def user_login(request):
         # print('username, pass, before try', username, password)
         try:
             # usr = form.get_user()
-            usr = CustomUser.objects.get(first_name = username)
-            print(usr.first_name,'username, pass after try :', usr.first_name, password , usr)
+            usr = CustomUser.objects.get(first_name=username)
+            print(usr.first_name, 'username, pass after try :', usr.first_name, password, usr)
             if usr.password == password:
                 print("Hello login")
                 # usr.username = username
@@ -104,7 +115,8 @@ def user_login(request):
 
                 usr.save()
                 # print(usr.username, 'username usernameusernameusername')
-            else:messages.error(request, 'Error, wrong password')
+            else:
+                messages.error(request, 'Error, wrong password')
         except Exception as e:
             messages.error(request, 'Error, щось пішло не так')
     else:

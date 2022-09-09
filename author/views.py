@@ -3,8 +3,30 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, UpdateView
 
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
+
 from .models import Author
 from .forms import AddAuthorForm
+from .serializers import AuthorSerializer
+
+
+class AuthorListCreateView(generics.ListCreateAPIView):
+    serializer_class = AuthorSerializer
+    queryset = Author.get_all()
+
+class AuthorListDetailView(generics.RetrieveUpdateAPIView):
+    serializer_class = AuthorSerializer
+    queryset = Author.get_all()
+    permission_classes = (IsAuthenticatedOrReadOnly, )
+
+class AuthorAPIDestroyView(generics.RetrieveDestroyAPIView):
+    serializer_class = AuthorSerializer
+    queryset = Author.get_all()
+    permission_classes = (AllowAny, )
+    messages = 'success deleted'
+
+
 
 class UpdateAuthorView(UpdateView):
     model = Author #.get_form_kwargs()

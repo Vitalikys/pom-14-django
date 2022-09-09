@@ -9,4 +9,7 @@ urlpatterns = [
     path('add_book/', AddBook.as_view(), name='add_book'),
     # path('delete_author/<int:id>', delete_author, name='author_delete_url'),
 
+    path('api/v1/bookapi/', BookAPIView.as_view()),
+    path('api/v1/bookapi/<int:id>/', BookAPIView.as_view()),
+
 ]

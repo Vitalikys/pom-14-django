@@ -9,4 +9,8 @@ urlpatterns = [
     path('change_author/<int:id>', edit, name = 'change_author_url'),
     # path('change_author/<int:pk>', UpdateAuthorView.as_view(), name = 'change_author_url'),
 
+
+    path('api/v1/author/', AuthorListCreateView.as_view()),
+    path('api/v1/author/<int:pk>/', AuthorListDetailView.as_view()),
+    path('api/v1/authordelete/<int:pk>/', AuthorAPIDestroyView.as_view()),
 ]

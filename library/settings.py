@@ -45,6 +45,8 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'rest_framework',
+    'rest_framework.authtoken',
+    # 'api_basic'
 ]
 
 MIDDLEWARE = [
@@ -143,9 +145,16 @@ USE_TZ = True
 
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',  # enables simple command line authentication
+
+    ),
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }

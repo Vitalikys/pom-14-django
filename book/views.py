@@ -3,8 +3,65 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import CreateView
 
+from rest_framework import generics, mixins
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from authentication.permission import IsAdminOrReadOnly
+from.serializers import BookSerializer
 from .models import Book
 from .forms import BookForm
+
+class BookAPIView(generics.ListCreateAPIView, mixins.ListModelMixin,
+                  mixins.CreateModelMixin, mixins.UpdateModelMixin,
+                  mixins.RetrieveModelMixin, mixins.DestroyModelMixin):
+    queryset = Book.objects.all()
+    lookup_field = 'id'
+    # authentication_classes = [SessionAuthentication, BasicAuthentication]
+    # permission_classes = (IsAuthenticated, IsAdminOrReadOnly)
+    serializer_class = BookSerializer
+    def get(self, request, id = None):
+        if id: return self.retrieve(request)
+        else: return self.list(request)
+    def post(self, request, *args, **kwargs):
+        return self.create(request)
+    def put(self,request, id =None):
+        return self.update(request, id)
+    def delete(self,request, id):
+        return self.destroy(request, id)
+
+
+# class BookAPIView(APIView):
+# # class BookAPIView(generics.ListCreateAPIView):
+#     # permission_classes = (IsAuthenticated,)
+#     # authentication_classes = (TokenAuthentication,)
+#     queryset = Book.objects.all().values()
+#     def get(self, request):
+#         lst = Book.objects.all()
+#         return Response({'all books':BookSerializer(lst, many=True).data})
+#     def post(self, request):
+#         from django.forms import model_to_dict
+#         serializer = BookSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         # post_new = Book.objects.create(
+#         #     name=request.data['name'],
+#         #     description=request.data['description'],
+#         #     count=request.data['count'],
+#         #     authors=request.data['authors']
+#         # )
+#         return Response({'post': serializer.data})
+#         # return Response({'post': BookSerializer(post_new).data})
+
+
+# class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
+#     # permission_classes = [IsAuthenticated, IsLibrarian]
+#     serializer_class = BookSerializer
+#     queryset = Book.get_all()
+
+
 
 def list_books(request):
     return render(request, 'book/book_list.html', { 'books' : Book.get_all()})
