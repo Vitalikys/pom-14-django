@@ -5,13 +5,13 @@ from .models import CustomUser
 
 
 class UserSerializer(serializers.ModelSerializer):
-    orders = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    # orders = serializers.PrimaryKeyRelatedField(many=True, read_only=True, default=None)
 
     class Meta:
         model = CustomUser # get_user_model() #
-        fields = ('id', 'email', 'first_name','last_name', 'middle_name','orders', 'password')
+        fields = ('id', 'email', 'first_name','last_name', 'middle_name','password')
         write_only_fields = ('password')
-        read_only_fields = ('id', 'orders')
+        # read_only_fields = ('id', 'orders')
 
     def create(self, validated_data):
         user = CustomUser.objects.create(

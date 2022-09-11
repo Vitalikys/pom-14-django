@@ -50,8 +50,9 @@ class CustomUser(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     id = models.AutoField(primary_key=True)
 
+    # objects = CustomUserManager()
     USERNAME_FIELD = 'email'
-    # REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = []
     class Meta:         # for admin.menu
         verbose_name= 'Користувач'
         verbose_name_plural = 'Користувачі'

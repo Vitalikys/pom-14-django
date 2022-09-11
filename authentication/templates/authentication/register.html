@@ -11,38 +11,38 @@
         {{ form.title.errors }}
         {{ form.title }}
         {% csrf_token %}
+        {{ form.as_p }}
+<!--        <div class="form-group">-->
+<!--            &lt;!&ndash;            <input class="form-control" type="text" name="username" , placeholder="Name">&ndash;&gt;-->
+<!--            <label for="form.first_name.id_for_label">User Name:</label>-->
+<!--            {{form.first_name}}-->
+<!--        </div>-->
+<!--        <br>-->
 
-        <div class="form-group">
-            <!--            <input class="form-control" type="text" name="username" , placeholder="Name">-->
-            <label for="form.username.id_for_label">User Name:</label>
-            {{form.username}}
-        </div>
-        <br>
+<!--        <div class="form-group">-->
+<!--            <label for="form.last_name.id_for_label">Last Name:</label>-->
+<!--            {{form.last_name}}-->
+<!--        </div>-->
+<!--        <br>-->
 
-        <div class="form-group">
-            <label for="form.last_name.id_for_label">Last Name:</label>
-            {{form.last_name}}
-        </div>
-        <br>
+<!--        <div class="form-group ">-->
+<!--            <label for="MidlenameID" class="col-sm-2 col-form-label">Middlename:</label>-->
+<!--            <input class="form-control" type="text" name="middle_name" id='MidlenameID' placeholder="Midlename">-->
+<!--        </div>-->
+<!--        <br>-->
 
-        <div class="form-group ">
-            <label for="MidlenameID" class="col-sm-2 col-form-label">Middlename:</label>
-            <input class="form-control" type="text" name="midle_name" id='MidlenameID' placeholder="Midlename">
-        </div>
-        <br>
+<!--        <input class="form-control" type="text" name="email" placeholder="email">-->
+<!--        <input class="form-control" type="password" name="password1" placeholder="Password1">-->
+<!--        <input class="form-control" type="password" name="password2" placeholder="Password2">-->
 
-        <input class="form-control" type="text" name="email" placeholder="email">
-        <input class="form-control" type="password" name="password1" placeholder="Password1">
-        <input class="form-control" type="password" name="password2" placeholder="Password2">
-
-        <fieldset>
-            <legend>{{ form.role.label }}</legend>
-            {% for radio in form.role %}
-            <div class="myradio">
-                {{ radio }}
-            </div>
-            {% endfor %}
-        </fieldset>
+<!--        <fieldset>-->
+<!--            <legend>{{ form.role.label }}</legend>-->
+<!--            {% for radio in form.role %}-->
+<!--            <div class="myradio">-->
+<!--                {{ radio }}-->
+<!--            </div>-->
+<!--            {% endfor %}-->
+<!--        </fieldset>-->
 
         <!--        {% for radio in form.role %}-->
         <!--        <div class="form-check">-->

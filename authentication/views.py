@@ -1,21 +1,26 @@
 from django.contrib import messages
-from django.contrib.auth import login, get_user_model, authenticate
+from django.contrib.auth import login, get_user_model, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 # from .forms import  AuthenticateUserForm
 from django.urls import reverse_lazy
-from rest_framework import generics
+from rest_framework import generics, viewsets
 
 from .models import CustomUser
 from .forms import UserLoginForm, UserLoginFormEmail, AuthenticateUserForm
 from .serializers import UserSerializer
 
 USER = get_user_model()
-class CustomUserView(generics.CreateAPIView):
-    model = USER
-    queryset = CustomUser.get_all()
-    serializer_class = UserSerializer
 
+
+# class CustomUserView(generics.CreateAPIView):
+#     model = USER
+#     queryset = CustomUser.get_all()
+#     serializer_class = UserSerializer
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
 
 def list_users(request):
     active_user = CustomUser.objects.filter(is_active=True).first()
@@ -56,28 +61,45 @@ def register(request):
         #  можна залишити без створення в формі
         form = AuthenticateUserForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            # user = authenticate(request, username=form.cleaned_data['email'], password=form.cleaned_data['password1'])
-            login(request, user)  # щоб зразу зайти після реєстрацї
+            new_user = form.save()
+            # print('cleaned_data_FORM', form.cleaned_data, new_user)
+            # user = authenticate(request, username=form.cleaned_data['email'], password=form.cleaned_data['password'])
+            login(request, new_user)  # щоб зразу зайти після реєстрацї
             messages.success(request, 'Reg success *!')
-            first_name = request.POST.get('username')
-            last_name = request.POST.get('last_name')
-            midle_name = request.POST.get('midle_name')
-            email = request.POST.get('email')
-            password = request.POST.get('password1')
-            role = request.POST.get('role')
-            try:
-                new_usr = CustomUser.create(email=email,
-                                            password=password,
-                                            first_name=first_name,
-                                            middle_name=midle_name,
-                                            last_name=last_name, role=role)
-                new_usr.is_active = True
-                new_usr.save()
-                messages.success(request, 'Registation success !')
-                return redirect('home')
-            except:
-                messages.error(request, 'Error of registration')
+
+            # first_name = request.POST.get('first_name')
+            # # first_name = request.POST['username']
+            # last_name = request.POST.get('last_name')
+            # midle_name = request.POST.get('middle_name')
+            # email = request.POST.get('email')
+            # password = request.POST.get('password')
+            # role = request.POST.get('role')
+            # # is_staff = False
+            # # is_superuser = False
+            # # print('email = ', email)
+            # # print('form.cleaned_data = ', form.cleaned_data)
+            # # if role:
+            # #     print('role = ', role)
+            # #     is_staff = True
+            # #     is_superuser = True
+            # try:
+            #     new_usr = CustomUser.objects.create(email=email,
+            #                                 password=password,
+            #                                 first_name=first_name,
+            #                                 middle_name=midle_name,
+            #                                 last_name=last_name, role=role)
+            #     # new_usr.is_active = True
+            #     # new_usr.is_superuser = is_superuser
+            #     # new_usr.is_staff = is_staff
+            #     new_usr.save()
+            #     print(new_usr,'after Create',new_usr.__dict__)
+            #     # user = authenticate(request, email=form.cleaned_data['email'],
+            #     #                     password=form.cleaned_data['password'])
+            #     login(request, new_usr)
+            #     messages.success(request, 'Registation success !')
+            #     return redirect('home')
+            # except:
+            #     messages.error(request, 'Error of registration')
         else:
             print(form.errors)
             messages.error(request, 'Error valid form щось пішло не так')
@@ -87,33 +109,26 @@ def register(request):
 
 
 def user_login(request):
-    ''' login CustomUser  from HTML FORMs '''
-    context = {}
+    ''' login CustomUser  from HTML FORMs by email'''
     if request.method == 'POST':
-        form = UserLoginForm(data=request.POST)
-        # form = UserLoginFormEmail(data=request.POST)
+        form = UserLoginFormEmail(data=request.POST)
         if form.is_valid():
-            login(request, form.get_user())
-        # ЩОСЬ НЕ ТАК ЧЕРЕЗ МЕЙЛ
-        # mail = request.POST.get('email')
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        # usr = CustomUser.get_by_email('mail')
-        # print('username, pass, before try', username, password)
+            # user = form.get_user()
+            mail = request.POST.get('email')
+            password = request.POST.get('password')
+            usr = CustomUser.get_by_email(mail)
+        print('username, pass, before try', mail, password, usr)
         try:
             # usr = form.get_user()
-            usr = CustomUser.objects.get(first_name=username)
+            # usr = CustomUser.objects.get(first_name=username)
             print(usr.first_name, 'username, pass after try :', usr.first_name, password, usr)
             if usr.password == password:
                 print("Hello login")
-                # usr.username = username
-                messages.success(request, 'Login success !o!')
                 login(request, usr)
-                messages.success(request, 'Login success 2!o!')
+                messages.success(request, f'Login success {usr.email}')
                 print(usr.is_active)
-                usr.is_active = True
-
-                usr.save()
+                # usr.is_active = True
+#                 usr.save()
                 # print(usr.username, 'username usernameusernameusername')
             else:
                 messages.error(request, 'Error, wrong password')
@@ -125,7 +140,7 @@ def user_login(request):
 
 
 def login_django(request):
-    ''' login Django_User using DJango FORMs '''
+    ''' login Django_User using DJango FORMs.by username, password'''
     if request.method == 'POST':
         form = UserLoginForm(data=request.POST)
         if form.is_valid():
@@ -141,9 +156,9 @@ def login_django(request):
 def user_logout(request):
     # from django.contrib.auth import logout # locally
     # current_user = CustomUser.objects.filter(is_active=True).first()
-    current_user = request.user
-    current_user.is_active = False
-    current_user.save()
-    # logout(request)  # standart method django
+    # current_user = request.user
+    # current_user.is_active = False
+    # current_user.save()
+    logout(request)  # standart method django
     messages.success(request, 'Logout success !')
     return redirect('home')

@@ -8,7 +8,8 @@ from django.contrib.auth.models import User
 from .models import CustomUser,  ROLE_CHOICES
 
 
-class UserLoginFormEmail(AuthenticationForm):
+# class UserLoginFormEmail(AuthenticationForm):
+class UserLoginFormEmail(forms.Form):
     email = forms.EmailField(label='User Name', widget=forms.EmailInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
@@ -18,19 +19,25 @@ class UserLoginForm(AuthenticationForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 
-class AuthenticateUserForm(UserCreationForm):
-    username = forms.CharField(label='User Name', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    # middle_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    email = forms.EmailField(label='E-mail', widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    password2 = forms.CharField(label='Пароль ще раз', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+# class AuthenticateUserForm(forms.Form):
+class AuthenticateUserForm(forms.ModelForm):
+#     username = forms.CharField(label='User Name', widget=forms.TextInput(attrs={'class': 'form-control'}))
+#     first_name = forms.CharField(label='User Name', widget=forms.TextInput(attrs={'class': 'form-control'}))
+#     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+#     middle_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+#     email = forms.EmailField(label='E-mail', widget=forms.EmailInput(attrs={'class': 'form-control'}))
+#     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+#     password2 = forms.CharField(label='Пароль ще раз', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     role = forms.ChoiceField(widget=forms.RadioSelect(), choices=ROLE_CHOICES)
     class Meta:
-        model = User
-        fields = ('username', 'last_name', 'email', 'password1', 'password2')
+        model = CustomUser
+        # fields = ('first_name', 'last_name', 'email', 'password1', 'password2', 'role')
+        fields = ('first_name', 'last_name', 'middle_name','email', 'password', 'role')
+        # fields = '__all__'
         widgets = {
             'first_name' : forms.TextInput(attrs={'class': 'form-control'}),
             'last_name' : forms.TextInput(attrs={'class': 'form-control'}),
-            # 'role' :forms.RadioSelect(),
+            'middle_name' : forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'role' : forms.RadioSelect(),
         }

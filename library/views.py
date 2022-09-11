@@ -6,9 +6,9 @@ from book.models import Book
 
 
 def base_page(request):
-    active_user = CustomUser.objects.filter(is_active = True).first()
-    print('active', active_user)
-    return render(request, 'home.html', {'us_active' : active_user})
+    # active_user = CustomUser.objects.filter(is_active = True).first()
+    # print('active', active_user)
+    return render(request, 'home.html')#, {'us_active' : active_user})
 
 class HomeLists(ListView):
     """Список всіх книг """
