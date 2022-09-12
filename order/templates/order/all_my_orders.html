@@ -6,7 +6,7 @@
 
 
 {% block content %}
-<h4>all Orders table:</h4>
+<h4>all my Orders:</h4>
 <div class="col-md-10">
     <table class="table table-warning table-striped">
         <thead class="border-bottom font-weight-bold">
@@ -17,7 +17,6 @@
             <th scope="col" style="width: 110px">Create date</th>
             <th scope="col" style="width: 110px">End date</th>
             <th scope="col" style="width: 110px">plated_end_at</th>
-            <th scope="col" style="width: 50px">Close</th>
         </tr>
         </thead>
         {% for order in orders %}
@@ -28,8 +27,6 @@
             <td>{{order.created_at}}</td>
             <td>{{order.end_at}}</td>
             <td>{{order.plated_end_at}}</td>
-            <td><a href="{% url 'order_delete_url' order.pk %}" class="btn btn-danger">
-                close order</a></td>
         </tr>
         {% endfor %}
     </table>

@@ -45,8 +45,8 @@ def list_orders(request):
 
 def my_orders(request):
     current_user  = request.user
-    messages.info(request, f"Info about all orders for user: '{current_user}' ")
-    data = Order.objects.filter(user = 13).values()
+    messages.info(request, f"All orders for user name: '{current_user}', email: {current_user.email} ")
+    data = Order.objects.filter(user_id = current_user.id)
     print(data)
     return render(request, 'order/all_my_orders.html', {'orders':data})
 

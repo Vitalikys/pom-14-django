@@ -26,8 +26,8 @@ SECRET_KEY = '_y2b#-m(nwf8irkpgs)wpg+-e$#_7^xaevp^me4+u4ov+3fyw*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['<url>','.herokuapp.com','pom_sprint_14.herokuapp.com']
-
+ALLOWED_HOSTS = ['127.0.0.1','<url>','.herokuapp.com','pom_sprint_14.herokuapp.com']
+AUTH_USER_MODEL = 'authentication.CustomUser'
 # Application definition
 
 INSTALLED_APPS = [
