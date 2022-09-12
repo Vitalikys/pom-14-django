@@ -14,6 +14,7 @@ whitenoise==6.2.0
 
 # NEW FROM LINUX ::
 # coverage==6.4.4 покриття тестами %
-# crispy-bootstrap5==0.6
+crispy-bootstrap5==0.6
+bootstrap4==0.1.0
 # django-on-heroku==1.1.2
 # psycopg2-binary==2.9.3
