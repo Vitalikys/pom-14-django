@@ -44,6 +44,7 @@ class MyUserManager(BaseUserManager):
             first_name=first_name,
         )
         user.is_admin = True
+        user.role = 1
         user.save(using=self._db)
         return user
 
@@ -85,7 +86,7 @@ class CustomUser(AbstractBaseUser):
     role = models.IntegerField(choices=ROLE_CHOICES, default=0)
 
     is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)  # STAFF, superuser
 
     objects = MyUserManager()
 

@@ -7,7 +7,6 @@
 
 {% block content %}
 <div class="list-group col-md-4">
-    <h4> login: admin,  passw: admin</h4>
     <form method = "post">
         {% csrf_token %}
         {{ form.as_p }}

@@ -44,10 +44,15 @@ def list_orders(request):
     return render(request, 'order/order_list.html', {'orders':data})
 
 def my_orders(request):
-    current_user  = request.user
-    messages.info(request, f"All orders for user name: '{current_user}', email: {current_user.email} ")
-    data = Order.objects.filter(user_id = current_user.id)
-    print(data)
+    try:
+        current_user  = request.user
+        messages.info(request, f"All orders for user name: '{current_user}', email: {current_user.email} ")
+        data = Order.objects.filter(user_id = current_user.id)
+        print(data)
+    except:
+        messages.warning(request, f'Something went wrong. Orders for: {current_user}')
+        return redirect('home')
+
     return render(request, 'order/all_my_orders.html', {'orders':data})
 
 @login_required(login_url='login_url')
@@ -73,20 +78,35 @@ def edit_order(request, order_id=None):
 def add_order(request):
     if request.method =='POST':
         form = OrderForm(request.POST)
+        # print(form.data)<QueryDict: {'csrfmiddlewaretoken': ['trJ'], 'book': ['1'], 'plated_end_at': ['2022-09-13']}>
         if form.is_valid():
-            import datetime
-            form.save()
+            new_order = form.save()
+            new_order.save()
+            messages.success(request, f'book: new order was created')
+            return redirect('list_orders')
+            # import datetime
+            # book_id = int(form.data['book'])
+            # user = request.user.id
+            # print('USER ID', user, 'book id', book_id)
+            # book = Book.get_by_id(book_id)
+            # user = CustomUser.get_by_id(request.user.id)
+            # date = datetime.timedelta(days=14)
+            # Order.create(user=user, book=book, plated_end_at=None)
+
+
             # print(form.cleaned_data)
             # book_id = int(form.cleaned_data['book'].id)
             # book = Book.get_by_id(book_id)
-            # # user = CustomUser.get_by_id(request.user.id)
+            # user = CustomUser.get_by_id(request.user.id)
             # user = request.user.id
-            # # timezone.now() + datetime.timedelta(days=14)
-            # from django.utils import timezone
+            # timezone.now() + datetime.timedelta(days=14)
+            # print('USER ID', user, 'book id', book_id)
+            from django.utils import timezone
             # date = timezone.now() + datetime.timedelta(days=14)
             # print(book, book_id, user, date)
+            form.save()
             # Order.create(user=user, book= book, plated_end_at=date)
-            # messages.success(request, f'book: new order:  ok')
+            messages.success(request, f'book: new order:  ok')
             return redirect('list_orders')
     else:
         form = OrderForm()

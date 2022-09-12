@@ -3,44 +3,52 @@
 {% block title %} Books {% endblock %}
 
 {% block sidebar  %}
-   <p>  sidebar expected here</p>
+<p> sidebar expected here</p>
 {% endblock %}
 
 
 {% block content %}
 <h4>all Books table:</h4>
 <div class="col-md-10">
-<table class="table table-warning table-striped">
-    <thead class="border-bottom font-weight-bold">
-    <tr>
-        <th scope="col" style="width: 20px">id</th>
-        <th scope="col" style="width: 110px">Name of book</th>
-        <th scope="col" style="width: 110px">description</th>
-        <th scope="col" style="width: 110px">count</th>
-        <th scope="col" style="width: 110px">authors</th>
-        <th scope="col" style="width: 70px">action</th>
-    </tr>
-    </thead>
-    {% for book in books %}
-    <tr>
-        <td>{{book.id}}</td>
-        <td><a href="{% url 'book_detail_url' book.id %}"> {{book.name}} </a></td>
-        <td>{{book.description |truncatewords:'20'}}</td>
-        <td>{{book.count}}</td>
-        <td>
-            {% for item in book.authors.all %}
-                {{ item.surname }}
-            {% endfor %}  </td>
-        <td><a href="{% url 'edit_book' book.id %}">edit</a>
-            <a style="color:red" href="{% url 'delete_book' book.id %}">delete</a></td>
+    <table class="table table-sm table-hover">
+        <thead class="border-bottom font-weight-bold">
+        <tr>
+            <th scope="col" style="width: 20px">id</th>
+            <th scope="col" style="width: 110px">Name of book</th>
+            <th scope="col" style="width: 110px">description</th>
+            <th scope="col" style="width: 110px">count</th>
+            <th scope="col" style="width: 110px">authors</th>
+            {% if request.user.role %}
+                <th scope="col" style="width: 70px">action</th>
+            {% endif %}
+        </tr>
+        </thead>
+        {% for book in books %}
+        <tr>
+            <td>{{book.id}}</td>
+            <td><a href="{% url 'book_detail_url' book.id %}"> {{book.name}} </a></td>
+            <td>{{book.description |truncatewords:10}}</td>
+            <td>{{book.count}}</td>
+            <td>
+                {% for item in book.authors.all %}
+                    {{ item.surname }}
+                {% endfor %}
+            </td>
 
-    </tr>
-    {% endfor %}
-</table>
-
+            {% comment %} надаємо доступ тільки бібліотекару {% endcomment %}
+            {% if request.user.role %}
+            <td><a href="{% url 'edit_book' book.id %}">edit</a>
+                <a style="color:red" href="{% url 'delete_book' book.id %}">delete</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% if request.user.role %}
     <a href="{% url 'add_book' %} ">
         <button type='submit' class="btn btn-outline-info"> Add new Book</button>
     </a>
+    {% endif %}
+
 </div>
 
 {% endblock %}
