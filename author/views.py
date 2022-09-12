@@ -38,6 +38,11 @@ def list_author(request):
     return render(request, 'author/author_list.html', {'author': Author.get_all() } )
 
 def add_author(request):
+    if request.user.role != 1:
+        # якщо ми звичайний відвідувач то нема доступу
+        from django.http import HttpResponse
+        return HttpResponse(status=403, content=' HttpResponse,status=403 \b - якщо ми звичайний відвідувач то нема доступу')  # HTTP 403 Forbidden
+
     if request.method == 'POST':
         form= AddAuthorForm(request.POST) # забираємо дані
         if form.is_valid():

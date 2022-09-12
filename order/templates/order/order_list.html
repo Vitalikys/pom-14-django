@@ -17,22 +17,31 @@
             <th scope="col" style="width: 110px">Create date</th>
             <th scope="col" style="width: 110px">End date</th>
             <th scope="col" style="width: 110px">plated_end_at</th>
-            <th scope="col" style="width: 50px">Close</th>
-            <th scope="col" style="width: 50px">Edit</th>
+
+            {% comment %} надаємо доступ тільки бібліотекару {% endcomment %}
+            {% if request.user.role %}
+                <th scope="col" style="width: 50px">Close</th>
+                <th scope="col" style="width: 50px">Edit</th>
+            {% endif %}
+
         </tr>
         </thead>
         {% for order in orders %}
         <tr>
             <td>{{order.id}}</td>
-            <td><a href="#"> {{order.book.name}} </a></td>
-            <td>{{order.user.last_name}}</td>
+            <td>{{order.book.name | truncatechars:19}}</td>
+            <td>{{order.user.first_name}} {{order.user.last_name}}</td>
             <td>{{order.created_at}}</td>
             <td>{{order.end_at}}</td>
             <td>{{order.plated_end_at}}</td>
-            <td><a href="{% url 'order_delete_url' order.pk %}" class="btn btn-danger">
-                close order</a></td>
-            <td><a href="{% url 'order_edit_url' order.pk %}" class="btn btn-info">
-                edit</a></td>
+
+            {% comment %} надаємо доступ тільки бібліотекару {% endcomment %}
+            {% if request.user.role %}
+                <td><a href="{% url 'order_delete_url' order.pk %}" class="btn btn-danger">
+                    close order</a></td>
+                <td><a href="{% url 'order_edit_url' order.pk %}" class="btn btn-info">
+                    edit</a></td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>

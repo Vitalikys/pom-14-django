@@ -3,20 +3,23 @@
 {% block title %} main page {% endblock %}
 
 {% block sidebar  %}
-    <p>sidebar here</p>
+    <p> /  sidebar here</p>
 {% endblock %}
 
 {% block content  %}
     <h6>POM-Django Sprint 14</h6>
-    <h6>View/Template om-36-team-28</h6>
     <H6>Vitalii Kostyreva </H6>
-    <p>логін, вхід вихід  для користувача CustomUser працює тільки на цій сторінці.
-        переходячи на інші, не звязано. поле CustomUser.is_active змінюємо на True or False, от так і це відбувається</p>
-    <p>для авторизації нормального юзера, створеного (з django manage.py createsuperuser),
-        потрібно зайти з форми нижче:
-    така авторизація діє на всьому сайті</p>
+   <p>
+       Реєстрація користувачів описана в class CustomUser(AbstractBaseUser),
+       авторизація проводиться через email
 
-    <h3> <a href="{%url 'login_django' %}">-login- </a> </h3>
+   </p>
+<ul>
+    Під час реєстрації нового користувача в системі Бібліотека можливо два варіанти, Role:
+    <li>visitor (відвідувач, звичайний користувач), обмежені права доступу</li>
+    <li>admin (бібліотекар) має можливість додавати книги, Авторів, редагувати користувачів</li>
+</ul>
+<p> Щоб зайти на сторінку .../admin потрібно створити через createsuperuser/ admin@mail.ua ; admin </p>
 
 
 

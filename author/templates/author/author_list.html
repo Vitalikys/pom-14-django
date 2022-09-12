@@ -17,8 +17,12 @@
             <th scope="col" style="width: 110px">Surname</th>
             <th scope="col" style="width: 110px">patronymic</th>
             <th scope="col" style="width: 110px">books</th>
-            <th scope="col" style="width: 50px">Delete</th>
-            <th scope="col" style="width: 50px">Change</th>
+
+            {% comment %} надаємо доступ тільки бібліотекару {% endcomment %}
+            {% if request.user.role %}
+                <th scope="col" style="width: 50px">Delete</th>
+                <th scope="col" style="width: 50px">Change</th>
+            {% endif %}
 
         </tr>
         </thead>
@@ -29,10 +33,15 @@
             <td>{{a.surname}}</td>
             <td>{{a.patronymic}}</td>
             <td>{{a.books}}</td>
-            <td><a href="{% url 'author_delete_url' a.pk %}" class="btn btn-danger">
-                delete</a></td>
-            <td><a href="{% url 'change_author_url' a.pk %}" class="btn btn-info">
-                change</a></td>
+
+            {% comment %} надаємо доступ тільки бібліотекару {% endcomment %}
+            {% if request.user.role %}
+                <td><a href="{% url 'author_delete_url' a.pk %}" class="btn btn-danger">
+                    delete</a></td>
+                <td><a href="{% url 'change_author_url' a.pk %}" class="btn btn-info">
+                    change</a></td>
+            {% endif %}
+
         </tr>
         {% endfor %}
     </table>

@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from rest_framework import generics, viewsets
 
 from .models import CustomUser
-from .forms import UserLoginForm, UserLoginFormEmail, AuthenticateUserForm
+from .forms import UserLoginFormEmail, AuthenticateUserForm
 from .serializers import UserSerializer
 
 USER = get_user_model()
@@ -19,6 +19,9 @@ USER = get_user_model()
 #     serializer_class = UserSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
+    """
+    API REST framework
+    """
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
@@ -135,22 +138,22 @@ def user_login(request):
         except Exception as e:
             messages.error(request, 'Error, щось пішло не так')
     else:
-        form = UserLoginForm()
+        form = UserLoginFormEmail()
     return render(request, 'authentication/login.html', {'form': form})
 
 
-def login_django(request):
-    ''' login Django_User using DJango FORMs.by username, password'''
-    if request.method == 'POST':
-        form = UserLoginForm(data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            messages.success(request, 'Ви успішно зайшли як нормальний user !')
-            return redirect('home')
-    else:
-        form = UserLoginForm()
-    return render(request, 'authentication/login_django_usr.html', {'form': form})
+# def login_django(request):
+#     ''' login Django_User using DJango FORMs.by mail, password'''
+#     if request.method == 'POST':
+#         form = UserLoginForm(data=request.POST)
+#         if form.is_valid():
+#             user = form.get_user()
+#             login(request, user)
+#             messages.success(request, f'Ви успішно зайшли як {user.email} !')
+#             return redirect('home')
+#     else:
+#         form = UserLoginForm()
+#     return render(request, 'authentication/login_django_usr.html', {'form': form})
 
 
 def user_logout(request):
