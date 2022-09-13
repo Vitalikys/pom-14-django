@@ -1,0 +1,33 @@
+version: '3.8'
+# для зєднання декількох контейнерів tyt
+services:
+  django_library:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+#           && touch new_file_inside
+#         python manage.py migrate --noinput &&
+    volumes:
+      - ./:/usr/src/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env.dev
+    environment:
+      - DB
+    depends_on:
+      - db  # залежить від postgres
+#      - postgres_data # залежить від postgres_data
+  db:
+    image: postgres:14.5
+    volumes:
+#      - host_mashina : container
+      - postgres_data:/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+#    ports:
+#      - 5432:5432
+
+volumes:
+  postgres_data:
