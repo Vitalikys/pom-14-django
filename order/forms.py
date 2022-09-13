@@ -1,5 +1,5 @@
-from datetime import timezone, datetime
-
+# from datetime import timezone, datetime
+import datetime
 from django import forms
 
 from authentication.models import CustomUser
@@ -9,7 +9,7 @@ from order.models import Order
 class OrderForm(forms.ModelForm):
     # user = forms.ChoiceField(choices=CustomUser.get_all(), label='Користувач:')
     class Meta:
-        date_today = datetime.date.today
+        date_today = datetime.date.today()
         end_date = datetime.date.today() + datetime.timedelta(days=14)
         model = Order
         fields = ['book','plated_end_at'] #, ,,'user'
