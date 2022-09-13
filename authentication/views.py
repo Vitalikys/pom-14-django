@@ -33,6 +33,11 @@ def list_users(request):
 
 @login_required(login_url='login_url')
 def delete_user(request, id):
+    if request.user.role != 1:
+        # якщо ми звичайний відвідувач то нема доступу
+        from django.http import HttpResponse
+        return HttpResponse(status=403, content=' HttpResponse,status=403 \b - якщо ми звичайний відвідувач то нема доступу')  # HTTP 403 Forbidden
+
     CustomUser.delete_by_id(id)
     messages.success(request, 'You have delete user. Success !')
     return redirect('list_users')
@@ -40,6 +45,11 @@ def delete_user(request, id):
 
 @login_required(login_url='login_url')
 def edit_user(request, user_id):
+    if request.user.role != 1:
+        # якщо ми звичайний відвідувач то нема доступу
+        from django.http import HttpResponse
+        return HttpResponse(status=403, content=' HttpResponse,status=403 \b - якщо ми звичайний відвідувач то нема доступу')  # HTTP 403 Forbidden
+
     if user_id:
         user_to_edit = CustomUser.get_by_id(user_id)
     form = AuthenticateUserForm(request.POST or None, instance=user_to_edit)
