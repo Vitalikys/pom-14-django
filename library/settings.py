@@ -100,11 +100,11 @@ DATABASE = "simpledbmamager"
 #     }
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'postgres',
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'db_library',    # from docker-compose  - POSTGRES_DB=db_library
 #         'USER': 'postgres',
 #         'PASSWORD': 'postgres',
-#         'HOST': 'localhost',
+#         'HOST': 'localhost',     # 'HOST': 'db', # from docker-compose
 #         'PORT': '5432',
 #     }
 # }
