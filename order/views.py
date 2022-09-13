@@ -80,34 +80,18 @@ def add_order(request):
         form = OrderForm(request.POST)
         # print(form.data)<QueryDict: {'csrfmiddlewaretoken': ['trJ'], 'book': ['1'], 'plated_end_at': ['2022-09-13']}>
         if form.is_valid():
-            new_order = form.save()
-            new_order.save()
-            messages.success(request, f'book: new order was created')
-            return redirect('list_orders')
-            # import datetime
-            # book_id = int(form.data['book'])
-            # user = request.user.id
-            # print('USER ID', user, 'book id', book_id)
-            # book = Book.get_by_id(book_id)
-            # user = CustomUser.get_by_id(request.user.id)
-            # date = datetime.timedelta(days=14)
-            # Order.create(user=user, book=book, plated_end_at=None)
-
-
-            # print(form.cleaned_data)
-            # book_id = int(form.cleaned_data['book'].id)
-            # book = Book.get_by_id(book_id)
-            # user = CustomUser.get_by_id(request.user.id)
-            # user = request.user.id
-            # timezone.now() + datetime.timedelta(days=14)
-            # print('USER ID', user, 'book id', book_id)
-            from django.utils import timezone
-            # date = timezone.now() + datetime.timedelta(days=14)
-            # print(book, book_id, user, date)
-            form.save()
-            # Order.create(user=user, book= book, plated_end_at=date)
-            messages.success(request, f'book: new order:  ok')
+            book = request.POST.get('book')
+            plated_end_at = request.POST.get('plated_end_at')
+            user = request.user.id
+            print(user, book, plated_end_at)
+            Order(user=CustomUser.get_by_id(user), book=Book.get_by_id(book), plated_end_at=plated_end_at)
+            messages.success(request, f'book:{book}. new order was created')
+        #   'plated_end_at': forms.DateInput(attrs={'type': 'date', 'min': date_today, 'max': end_date}),
+        #   end_date = datetime.date.today() + datetime.timedelta(days=14)
+        #   timezone.now() + datetime.timedelta(days=14)
+        #   print('USER ID', user, 'book id', book_id)
             return redirect('list_orders')
     else:
         form = OrderForm()
     return render(request, 'order/new_order.html', {'form': form})
+
