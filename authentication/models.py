@@ -84,6 +84,7 @@ class CustomUser(AbstractBaseUser):
     created_at = models.DateTimeField(editable=False, auto_now=datetime.datetime.now())
     updated_at = models.DateTimeField(auto_now=datetime.datetime.now())
     role = models.IntegerField(choices=ROLE_CHOICES, default=0)
+    id = models.AutoField(primary_key=True)
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)  # STAFF, superuser
