@@ -4,7 +4,7 @@ from .models import Order
 
 
 class OrderSerializer(serializers.ModelSerializer):
-     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+     # user = serializers.HiddenField(default=serializers.CurrentUserDefault())
      class Meta:
         model = Order
         # fields = ('book', 'user', 'created_at', 'end_at', 'plated_end_at')

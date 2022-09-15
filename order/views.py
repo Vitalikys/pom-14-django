@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_list_or_404
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
@@ -14,8 +14,23 @@ from rest_framework import viewsets, status
 from .serializers import OrderSerializer
 
 class OrderViewSet(viewsets.ModelViewSet):
+    ''' only for single orders'''
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+    def get(self, request, pk):
+        order= get_list_or_404(Order, pk=pk)
+        data = OrderSerializer(order).data
+        return Response(data, status=status.HTTP_200_OK)
+
+class UserOrderView(viewsets.ModelViewSet):
+    ''' for user.id + order.id'''
+    serializer_class = OrderSerializer
+    # def get_queryset(self):
+    #     user = self.kwargs['user_id']
+    #     order = self.kwargs['order_id']
+    #     print('usr', user, 'ORDER' , order)
+    #     return Order.objects.filter(user_id =user, id=order)
 
 
 # class OrderViewSet(viewsets.ViewSet):
