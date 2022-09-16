@@ -23,13 +23,6 @@ from order.views import OrderViewSet, UserOrderView
 from book.views import BookAPIView
 from .views import base_page, HomeLists
 
-router_user = DefaultRouter()  # можна створити один 'router' для всіх і B нього робити регістр всіх
-router_user.register(r'api/v1/user', UserViewSet)
-router_order = DefaultRouter()
-router_order.register('order', OrderViewSet)
-
-router_order.register(r'api/v1/user/(?P<user_id>\d+)/order/(?P<order_id>\d+)', UserOrderView, basename='order_plus_user')
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', base_page, name='home'),
@@ -39,15 +32,4 @@ urlpatterns = [
     path('user/', include('authentication.urls')),
     path('library_main/', HomeLists.as_view(), name='list_books_main'),
 
-    # REST Framework here:
-    # path('api/v1/',include(router_user.urls)),
-    path('api/v1/',include(router_order.urls)), # http://127.0.0.1:8000/api/v1/order/
-    path('api/v1/book/', BookAPIView.as_view()), # http://127.0.0.1:8000/api/v1/book/
-    path('api/v1/book/<int:id>/', BookAPIView.as_view()), # http://127.0.0.1:8000/api/v1/book/{id}
-    path('api/v1/author/', AuthorListCreateView.as_view()),
-    path('api/v1/author/<int:pk>/', AuthorListDetailView.as_view()),
-    path('api/v1/authordelete/<int:pk>/', AuthorAPIDestroyView.as_view()),
-
 ]
-
-urlpatterns += router_user.urls
