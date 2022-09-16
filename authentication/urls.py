@@ -11,6 +11,5 @@ urlpatterns = [
     path('edit/<int:user_id>/', edit_user, name='user_edit_url'),
     path('user_detail/<int:id>/', detail_user, name='user_detail_url'),
 
-    # path('api/v1/user/', CustomUserView.as_view()),
 
 ]

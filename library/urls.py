@@ -15,15 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter, SimpleRouter
 
-from authentication.views import UserViewSet
-from author.views import AuthorListCreateView, AuthorListDetailView, AuthorAPIDestroyView
-from order.views import OrderViewSet, UserOrderView
-from book.views import BookAPIView
 from .views import base_page, HomeLists
 
 urlpatterns = [
+    path('api/',include('api.urls')), # API REST
+
     path('admin/', admin.site.urls),
     path('', base_page, name='home'),
     path('author/', include('author.urls')),

@@ -8,26 +8,10 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAd
 
 from .models import Author
 from .forms import AddAuthorForm
-from .serializers import AuthorSerializer
 
-
-class AuthorListCreateView(generics.ListCreateAPIView):
-    serializer_class = AuthorSerializer
-    queryset = Author.get_all()
-    permission_classes = (IsAdminUser,)
-
-class AuthorListDetailView(generics.RetrieveUpdateAPIView):
-    serializer_class = AuthorSerializer
-    queryset = Author.get_all()
-    permission_classes = (AllowAny, )
-
-class AuthorAPIDestroyView(generics.RetrieveDestroyAPIView):
-    serializer_class = AuthorSerializer
-    queryset = Author.get_all()
-    permission_classes = (IsAdminUser, )
-    messages = 'success deleted'
 
 class UpdateAuthorView(UpdateView):
+    ''' not in use now'''
     model = Author #.get_form_kwargs()
     template_name = 'author/edit_author.html'
     permission_classes = (IsAdminUser, )

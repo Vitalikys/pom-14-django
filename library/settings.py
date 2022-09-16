@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'author',
     'book',
     'order',
+    'api',
 
     'crispy_forms',
     'rest_framework',
