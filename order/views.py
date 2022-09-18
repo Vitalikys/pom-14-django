@@ -99,7 +99,8 @@ def add_order(request):
             plated_end_at = request.POST.get('plated_end_at')
             user = request.user.id
             print(user, book, plated_end_at)
-            Order(user=CustomUser.get_by_id(user), book=Book.get_by_id(book), plated_end_at=plated_end_at)
+            new_ord = Order(user=CustomUser.get_by_id(user), book=Book.get_by_id(book), plated_end_at=plated_end_at)
+            new_ord.save()
             messages.success(request, f'book:{book}. new order was created')
         #   'plated_end_at': forms.DateInput(attrs={'type': 'date', 'min': date_today, 'max': end_date}),
         #   end_date = datetime.date.today() + datetime.timedelta(days=14)
