@@ -4,26 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 # from .forms import  AuthenticateUserForm
 from django.urls import reverse_lazy
-from rest_framework import generics, viewsets
 
 from .models import CustomUser
 from .forms import UserLoginFormEmail, AuthenticateUserForm
-from .serializers import UserSerializer
 
-USER = get_user_model()
-
-
-# class CustomUserView(generics.CreateAPIView):
-#     model = USER
-#     queryset = CustomUser.get_all()
-#     serializer_class = UserSerializer
-
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API REST framework
-    """
-    queryset = CustomUser.objects.all()
-    serializer_class = UserSerializer
 
 def list_users(request):
     active_user = CustomUser.objects.filter(is_active=True).first()

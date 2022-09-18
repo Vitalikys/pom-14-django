@@ -9,51 +9,6 @@ from book.models import Book
 from .forms import OrderForm
 from .models import Order
 
-from rest_framework import viewsets, status
-
-from .serializers import OrderSerializer
-
-class OrderViewSet(viewsets.ModelViewSet):
-    ''' only for single orders'''
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
-
-    def get(self, request, pk):
-        order= get_list_or_404(Order, pk=pk)
-        data = OrderSerializer(order).data
-        return Response(data, status=status.HTTP_200_OK)
-
-class UserOrderView(viewsets.ModelViewSet):
-    ''' for user.id + order.id'''
-    serializer_class = OrderSerializer
-    # def get_queryset(self):
-    #     user = self.kwargs['user_id']
-    #     order = self.kwargs['order_id']
-    #     print('usr', user, 'ORDER' , order)
-    #     return Order.objects.filter(user_id =user, id=order)
-
-
-# class OrderViewSet(viewsets.ViewSet):
-#     def list(self, request):
-#         orders = Order.objects.all()
-#         serializer = OrderSerializer(orders, many=True)
-#         return Response(serializer.data)
-#
-#     def create(self, request):
-#         serializer = OrderSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-#     def retrieve(self, request, pk =None):
-#         queryset = Order.objects.all()
-#         order = get_object_or_404(queryset, pk= pk)
-#         serializer = OrderSerializer(order)
-#         return Response(serializer.data)
-
-
-
 def list_orders(request):
     data = Order.get_all()
     return render(request, 'order/order_list.html', {'orders':data})
@@ -99,7 +54,9 @@ def add_order(request):
             plated_end_at = request.POST.get('plated_end_at')
             user = request.user.id
             print(user, book, plated_end_at)
-            Order(user=CustomUser.get_by_id(user), book=Book.get_by_id(book), plated_end_at=plated_end_at)
+            new_ord = Order(user=CustomUser.get_by_id(user), book=Book.get_by_id(book), plated_end_at=plated_end_at)
+            new_ord.save()
+            print('new ORDER here :', new_ord, book, user)
             messages.success(request, f'book:{book}. new order was created')
         #   'plated_end_at': forms.DateInput(attrs={'type': 'date', 'min': date_today, 'max': end_date}),
         #   end_date = datetime.date.today() + datetime.timedelta(days=14)
