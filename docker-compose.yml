@@ -3,6 +3,7 @@ version: '3.8'
 services:
   app_library:
     container_name: library_web
+    restart: unless-stopped
     build: .
     command: bash -c "python manage.py migrate
       && touch new_file_inside

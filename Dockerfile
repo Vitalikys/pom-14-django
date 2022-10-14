@@ -1,6 +1,6 @@
 #створення image
 # pull official base image
-FROM python:3.10
+FROM python:3.9-slim
 
 # set work directory
 WORKDIR /usr/src/
@@ -11,7 +11,7 @@ ENV PYTHONUNBUFFERED 1
 
 # install psycopg2 dependencies
 #RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
-RUN apt-get -y install libpq-dev gcc && pip install psycopg2-binary
+#RUN apt-get -y install libpq-dev gcc && pip install psycopg2-binary
 
 # install dependencies
 RUN pip install --upgrade pip

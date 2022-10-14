@@ -40,5 +40,6 @@ class AuthenticateUserForm(forms.ModelForm):
             'last_name' : forms.TextInput(attrs={'class': 'form-control'}),
             'middle_name' : forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'role' : forms.RadioSelect(),
+            'password': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'role': forms.RadioSelect(),
         }
