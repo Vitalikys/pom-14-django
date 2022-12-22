@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser  # get_user_model() #
         fields = ('id', 'email', 'first_name', 'last_name', 'middle_name', 'password')
-        write_only_fields = ('password')
+        write_only_fields = 'password'
         # read_only_fields = ('id', 'orders')
 
     def create(self, validated_data):
@@ -43,12 +43,13 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ('name', 'description', 'count', 'id', 'authors')
         # exclude = поля джанго-модели, для которых не нужно создавать поля
+
+
 # class BookSerializer(serializers.Serializer):
 #     id = serializers.IntegerField(read_only=True) #primary_key=True)
 #     name = serializers.CharField(max_length=128, allow_blank=True,  required=False)
@@ -73,4 +74,3 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         # fields = ('book', 'user', 'created_at', 'end_at', 'plated_end_at')
         fields = '__all__'
-

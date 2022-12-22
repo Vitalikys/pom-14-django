@@ -11,7 +11,8 @@ from authentication.models import CustomUser
 from author.models import Author
 from book.models import Book
 from order.models import Order
-from .serializers import * # AuthorSerializer, UserSerializer
+from .serializers import *  # AuthorSerializer, UserSerializer
+
 
 # USER = get_user_model()
 
@@ -45,6 +46,7 @@ class AuthorAPIDestroyView(generics.RetrieveDestroyAPIView):
     # permission_classes = (IsAdminUser,)
     messages = 'success deleted'
 
+
 # ALL BOOK Views
 
 # class BookAPIView(generics.ListCreateAPIView, mixins.ListModelMixin,
@@ -67,17 +69,19 @@ class AuthorAPIDestroyView(generics.RetrieveDestroyAPIView):
 
 
 class BookAPIView(APIView):
-# class BookAPIView(generics.ListCreateAPIView):
-#     # permission_classes = (IsAuthenticated,)
-#     # authentication_classes = (TokenAuthentication,)
+    # class BookAPIView(generics.ListCreateAPIView):
+    #     # permission_classes = (IsAuthenticated,)
+    #     # authentication_classes = (TokenAuthentication,)
     queryset = Book.objects.all().values()
-    def get(self, request, id = None):
+
+    def get(self, request, id=None):
         if id:
-            book= Book.get_by_id(id)
-            return Response({'one book from GET':BookSerializer(book).data})
+            book = Book.get_by_id(id)
+            return Response({'one book from GET': BookSerializer(book).data})
         else:
             lst = Book.objects.all()
-            return Response({'all books from GET':BookSerializer(lst, many=True).data})
+            return Response({'all books from GET': BookSerializer(lst, many=True).data})
+
     def post(self, request):
         serializer = BookSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -91,7 +95,7 @@ class BookAPIView(APIView):
         #     authors=request.data['authors'])
         # return Response({'post': BookSerializer(book_new).data})
 
-    def put(self,request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         id = kwargs.get('id', None)
         if not id:
             return Response({'error': "method PUT not allowed here, no ID"})
@@ -102,9 +106,9 @@ class BookAPIView(APIView):
         serializer = BookSerializer(data=request.data, instance=book_to_update)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response({"post":serializer.data})
+            return Response({"post": serializer.data})
 
-    def delete(self,request,*args, **kwargs):
+    def delete(self, request, *args, **kwargs):
         id = kwargs.get('id', None)
         if not id:
             return Response({'error': "method DELETE not allowed here, no ID"})
@@ -113,7 +117,8 @@ class BookAPIView(APIView):
         except:
             return Response({'error': "method DELETE, Book not Found"})
         book_to_delete.delete()
-        return Response({"post":"Delete book id = " +str(id)})
+        return Response({"post": "Delete book id = " + str(id)})
+
 
 # class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
 #     # permission_classes = [IsAuthenticated, IsLibrarian]
@@ -133,15 +138,16 @@ class OrderViewSet(viewsets.ModelViewSet):
     #     data = OrderSerializer(order).data
     #     return Response(data, status=status.HTTP_200_OK)
 
-class UserOrderView(viewsets.ModelViewSet):
-    ''' for user.id + order.id'''
-    serializer_class = OrderSerializer
-    # def get_queryset(self):
-    #     user = self.kwargs['user_id']
-    #     order = self.kwargs['order_id']
-    #     print('usr', user, 'ORDER' , order)
-    #     return Order.objects.filter(user_id =user, id=order)
 
+class UserOrderView(viewsets.ModelViewSet):
+    """ for user.id + order.id"""
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        user = self.kwargs['user_id']
+        order = self.kwargs['order_id']
+        print('usr', user, 'ORDER', order)
+        return Order.objects.filter(user_id=user, id=order)
 
 # class OrderViewSet(viewsets.ViewSet):
 #     def list(self, request):
@@ -161,4 +167,3 @@ class UserOrderView(viewsets.ModelViewSet):
 #         order = get_object_or_404(queryset, pk= pk)
 #         serializer = OrderSerializer(order)
 #         return Response(serializer.data)
-

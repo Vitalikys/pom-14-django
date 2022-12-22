@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 import dj_database_url
-import django_heroku
+# import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,9 +26,10 @@ SECRET_KEY = '_y2b#-m(nwf8irkpgs)wpg+-e$#_7^xaevp^me4+u4ov+3fyw*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','<url>','.herokuapp.com','pom_sprint_14.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', '<url>','.herokuapp.com', 'localhost'
+                 'pom_sprint_14.herokuapp.com', '78.27.202.55']
 AUTH_USER_MODEL = 'authentication.CustomUser'
-# Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -82,33 +83,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'library.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+DATABASE = "simpledbmamager"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'db_library',    # from docker-compose  - POSTGRES_DB=db_library
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',     # 'HOST': 'db', # from docker-compose
+        'PORT': '5432',
     }
 }
-
-DATABASE = "simpledbmamager"
-# DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#             'NAME': 'ciba',
-#         }
-#     }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'db_library',    # from docker-compose  - POSTGRES_DB=db_library
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'localhost',     # 'HOST': 'db', # from docker-compose
-#         'PORT': '5432',
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -164,8 +158,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Logger required settings.
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -191,7 +183,7 @@ LOGGING = {
     },
 }
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
 try:
     from .local_settings import *
 except ImportError:
