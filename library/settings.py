@@ -26,7 +26,7 @@ SECRET_KEY = '_y2b#-m(nwf8irkpgs)wpg+-e$#_7^xaevp^me4+u4ov+3fyw*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '<url>','.herokuapp.com', 'localhost'
+ALLOWED_HOSTS = ['127.0.0.1', '<url>','.herokuapp.com', 'localhost',
                  'pom_sprint_14.herokuapp.com', '78.27.202.55']
 AUTH_USER_MODEL = 'authentication.CustomUser'
 
@@ -99,7 +99,7 @@ DATABASES = {
         'NAME': 'db_library',    # from docker-compose  - POSTGRES_DB=db_library
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'localhost',     # 'HOST': 'db', # from docker-compose
+        'HOST': 'db',     # 'HOST': 'db', # from docker-compose
         'PORT': '5432',
     }
 }
